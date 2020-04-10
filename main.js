@@ -27,44 +27,70 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 // const sample = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
 
-
+//function to validate card
 const validateCred = arr => {
-    let newArr=[];
+    let newArr = [];
+    //functiion is to calculate the sum of array value
+    //this function is need to execute the REDUCE function
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    for(let i = arr.length-1; i>= 0; i--){
-        if(i % 2 === 0){
+
+
+    for (let i = arr.length - 1; i >= 0; i--) {
+        if (i % 2 === 0) {
             arr[i] += arr[i];
-            if(arr[i] > 9){
+            if (arr[i] > 9) {
                 arr[i] -= 9;
             }
         }
         newArr.push(arr[i]);
     }
+
+    //REDUCE is a built in function of JS refer to MDN for more info
+    //assigned the sum of newArr into variable sum
     const sum = newArr.reduce(reducer);
-    
-   return sum %10 ===0;  
+
+    //so this line can be executed much cleaner
+    //this will return true if the modulo of sum is equal to zero
+    return sum % 10 === 0;
 }
 
 // console.log(validateCred(valid1));
 
+
+//fucntion to check if the card is invalid based on the given array
 const findInvalidCards = array => {
-    let invalid=[];
+    let invalid = [];
+
+    //iterate all the list of array using this loop
     for (let i = 0; i < array.length; i++) {
+        //assigned into currCred varialble the list of array
         let currCred = array[i];
-        if(!validateCred(currCred)){
+
+
+        //check the list of array if card is invalid
+        if (!validateCred(currCred)) {
+            //store in the new array the list of invalid card
             invalid.push(currCred);
         }
     }
+
+    //will return all the invalid card. if valid it should be blank.
     return invalid;
 }
 
 
+//a function to check if what company comes from the invalid card
 const idInvalidCardCompanies = invaliCards => {
-    let company =[];
+    let company = [];
+    //iterate in the list of array all the invalid cards
     for (let i = 0; i < invaliCards.length; i++) {
-        switch (invaliCards[i][0]){
+
+        //create a switch statement to check if the first index
+        //of card to know whic compnay it is belong
+        switch (invaliCards[i][0]) {
+            //if company is valid it will add to array of companies
             case 3:
-                if (company.indexOf('Amex') === -1){
+                if (company.indexOf('Amex') === -1) {
                     company.push('Annex');
                 }
                 break;
@@ -83,6 +109,7 @@ const idInvalidCardCompanies = invaliCards => {
                     company.push('Discover');
                 }
                 break;
+            //will return the defauly error message
             default:
                 console.log('Company not found');
                 break;
